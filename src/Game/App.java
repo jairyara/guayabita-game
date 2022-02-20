@@ -77,31 +77,30 @@ public class App {
                             int secondValue = throwDice();
                             int playerBalance = value.getBalance();
                             int houseBalanceBet = house.getBalance();
-                            int resultBetSum;
+                            int resultBet = 0;
 
                             if (value.getBalance() >= house.getBalance()) {
                                 if (firstValue < secondValue) {
-                                    resultBetSum = playerBalance + houseBalanceBet;
-                                    value.setBalance(resultBetSum);
+                                    resultBet = playerBalance + houseBalanceBet;
+                                    value.setBalance(resultBet);
                                     house.setBalance(0);
                                     System.out.println("Jugador " + value.getName() + " gana");
-                                    System.out.println("Su nuevo saldo es: " + value.getBalance());
-                                    break;
+                                    System.out.println("Balance jugador " + value.getBalance());
                                 } else {
-                                    int addBetHouse = playerBalance + houseBalanceBet;
-                                    resultBetSum = playerBalance - houseBalanceBet;
-                                    value.setBalance(resultBetSum);
-                                    house.setBalance(addBetHouse);
+                                    int houseResult = houseBalanceBet * 2;
+                                    resultBet = playerBalance - houseBalanceBet;
+                                    value.setBalance(resultBet);
+                                    house.setBalance(houseResult);
                                     System.out.println("Jugador " + value.getName() + " pierde");
-                                    System.out.println("Su nuevo saldo es: " + value.getBalance());
+                                    System.out.println("Balance jugador " + value.getBalance());
+                                    System.out.println("Balance casa " + house.getBalance());
                                 }
+                                break;
                             } else {
                                 System.out.println("Jugador " + value.getName() + " se retira por falta de fondos");
                                 System.out.println("----------------------------------");
                                 break;
                             }
-
-
                         } else {
                             System.out.println("Lanzamiento " + 2 + " es de " + throwDice());
                             System.out.println("Este lanzamiento no cuenta en la apuesta");
@@ -115,6 +114,7 @@ public class App {
                             house.setBalance(houseBalance);
                             System.out.println("Banco de la casa es de : " + house.getBalance());
                             System.out.println("----------------------------------");
+                            activeGame = true;
                             break;
                         }
                     }
@@ -122,9 +122,6 @@ public class App {
                     activeGame = false;
                 }
 
-                if (house.getBalance() == 0) {
-                    activeGame = false;
-                }
             }
         }
         System.out.println("Juego finalizado");
